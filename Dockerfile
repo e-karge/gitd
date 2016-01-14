@@ -1,11 +1,13 @@
 FROM alpine:3.3
 
 RUN \
-  sed -i  '1 {p; s:/v3.3/main$:/edge/testing:}' /etc/apk/repositories &&\
-  cat /etc/apk/repositories &&\
+  # add testing for runit \
+  sed -i '1 {p; s:/v3.3/main$:/edge/testing:}' /etc/apk/repositories &&\
   apk update &&\
   apk upgrade &&\
   apk add git git-gitweb lighttpd dropbear runit &&\
+  # remove testing \
+  sed -i -e '/\/edge\/testing$/ d' /etc/apk/repositories &&\
   rm -r /var/cache/apk/* &&\
   :
 
