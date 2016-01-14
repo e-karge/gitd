@@ -1,0 +1,14 @@
+#!/bin/sh
+
+source /.dockerenv
+
+if [ ${PUBKEY:+set} ]; then
+  passwd -d git
+  printf '%s\n' "$PUBKEY" > ~git/.ssh/authrized_keys
+fi
+
+if [ ${PASSWD:+set} ]; then
+  printf 'git:%s' "$PASSWD" | chpasswd
+fi
+
+exec runsvdir /run/runsvdir

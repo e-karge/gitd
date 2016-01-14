@@ -18,7 +18,8 @@ RUN \
   :
 
 COPY runsvdir /run/runsvdir
+COPY dockerinit .dockerinit
 
 EXPOSE 22
 
-CMD runsvdir /run/runsvdir
+ENTRYPOINT /.dockerinit
