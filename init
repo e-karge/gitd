@@ -1,10 +1,8 @@
 #!/bin/sh
 
-source /.dockerenv
-
 if [ ${PUBKEY:+set} ]; then
   passwd -d git
-  printf '%s\n' "$PUBKEY" > ~git/.ssh/authrized_keys
+  printf '%s\n' "$PUBKEY" | install -o git -g git -m 0600 /dev/stdin ~git/.ssh/authorized_keys
 fi
 
 if [ ${PASSWD:+set} ]; then

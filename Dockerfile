@@ -12,14 +12,15 @@ RUN \
 RUN \
   mkdir -p /etc/dropbear &&\
   adduser -h /var/db/git -s /bin/sh -H -D git git &&\
-  mkdir -p /var/db/git &&\
-  chown git:git /var/db/git &&\
+  mkdir -m 0750 -p /var/db/git &&\
+  mkdir -m 0700 -p /var/db/git/.ssh &&\
+  chown -R git:git /var/db/git &&\
   printf 'git:git' | chpasswd &&\
   :
 
 COPY runsvdir /run/runsvdir
-COPY dockerinit .dockerinit
+COPY init /run
 
 EXPOSE 22
 
-ENTRYPOINT /.dockerinit
+ENTRYPOINT /run/init
